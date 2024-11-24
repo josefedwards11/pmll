@@ -4,8 +4,8 @@
 
 // Define the bitcoin_transaction_t structure
 typedef struct {
-    char wallet_address[64]; // Wallet address field
-    unsigned char bitcoin[32]; // Fixed buffer size for Bitcoin data
+    char wallet_address[64];     // Wallet address field
+    unsigned char bitcoin[32];   // Fixed buffer size for Bitcoin data
 } bitcoin_transaction_t;
 
 // Function prototype declarations
@@ -14,16 +14,46 @@ void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address)
 void sign_bitcoin_transaction(bitcoin_transaction_t *transaction);
 void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction);
 
+int main() {
+    // Example of using the bitcoin_transaction_t structure
+    bitcoin_transaction_t transaction;
+
+    // Assigning values (example)
+    snprintf(transaction.wallet_address, sizeof(transaction.wallet_address), "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
+
+    // Initialize Bitcoin data with mock values
+    for (int i = 0; i < sizeof(transaction.bitcoin); i++) {
+        transaction.bitcoin[i] = (unsigned char)i;
+    }
+
+    // Print wallet address and Bitcoin data
+    printf("Wallet Address: %s\n", transaction.wallet_address);
+    printf("Bitcoin Data: ");
+    for (int i = 0; i < sizeof(transaction.bitcoin); i++) {
+        printf("%02x", transaction.bitcoin[i]);
+    }
+    printf("\n");
+
+    // Create a new transaction
+    bitcoin_transaction_t *tx = create_bitcoin_transaction("bc1qetkudft7hlsl3k7nhrg6zrkufpu6q3rdnx5ag5", transaction.bitcoin);
+
+    // Free allocated memory
+    free(tx);
+
+    return 0;
+}
+
 // Function implementations
+
 bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, unsigned char *bitcoin) {
-    // Allocate memory for a new transaction
+    // Allocate memory for the transaction
     bitcoin_transaction_t *transaction = malloc(sizeof(bitcoin_transaction_t));
     if (transaction == NULL) {
         perror("Failed to allocate memory for transaction");
         return NULL;
     }
 
-    // Safely copy wallet address and Bitcoin data
+    // Assign wallet address and Bitcoin data
     NewFunction(transaction, wallet_address);
     memcpy(transaction->bitcoin, bitcoin, sizeof(transaction->bitcoin));
 
@@ -37,7 +67,7 @@ bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, un
 void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address) {
     // Safely copy the wallet address into the transaction
     strncpy(transaction->wallet_address, wallet_address, sizeof(transaction->wallet_address) - 1);
-    transaction->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0'; // Ensure null-termination
+    transaction->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0'; // Ensure null termination
 }
 
 void sign_bitcoin_transaction(bitcoin_transaction_t *transaction) {
@@ -63,20 +93,4 @@ void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction) {
     printf("Metadata securely expunged after broadcasting.\n");
 }
 
-// Main function
-int main() {
-    // Example Bitcoin data
-    unsigned char bitcoin_data[32] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                                      0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
-                                      0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18,
-                                      0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20};
-
-    // Create a new transaction
-    bitcoin_transaction_t *tx = create_bitcoin_transaction("bc1qetkudft7hlsl3k7nhrg6zrkufpu6q3rdnx5ag5", bitcoin_data);
-
-    // Ensure the transaction is freed after use
-    free(tx);
-
-    return 0;
-}
 
