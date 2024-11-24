@@ -13,6 +13,7 @@ void PMLL_Compress_Data(const char *input, unsigned char *output);
 void PMLL_Cache_Data(const char *input, unsigned char *output);
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin);
 bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, unsigned char *bitcoin);
+void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address);
 void sign_bitcoin_transaction(bitcoin_transaction_t *transaction);
 void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction);
 
@@ -102,11 +103,17 @@ bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, un
     }
 
     // Safely copy wallet address and Bitcoin data
-    strncpy(transaction->wallet_address, wallet_address, sizeof(transaction->wallet_address) - 1);
-    transaction->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0';
+    NewFunction(transaction, wallet_address);
+    ->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0';
     memcpy(transaction->bitcoin, bitcoin, sizeof(transaction->bitcoin));
 
     return transaction;
+}
+
+void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address)
+{
+    strncpy(transaction->wallet_address, wallet_address, sizeof(transaction->wallet_address) - 1);
+    transaction
 }
 
 // Sign a Bitcoin transaction
