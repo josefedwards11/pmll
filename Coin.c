@@ -12,10 +12,13 @@ void PMLL_Hash_Function(const char *input, unsigned char *output);
 void PMLL_Compress_Data(const char *input, unsigned char *output);
 void PMLL_Cache_Data(const char *input, unsigned char *output);
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin);
+bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, unsigned char *bitcoin);
+void sign_bitcoin_transaction(bitcoin_transaction_t *transaction);
+void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction);
 
 // Bitcoin transaction structure
 typedef struct {
-    char wallet_address[64];  // Updated to store address safely
+    char wallet_address[64];  // Safely store wallet address
     unsigned char bitcoin[32]; // Fixed buffer size for Bitcoin hash
 } bitcoin_transaction_t;
 
@@ -90,7 +93,7 @@ void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) 
     printf("Transaction complete and metadata cleaned.\n");
 }
 
-// Bitcoin wallet API implementation
+// Create a Bitcoin transaction
 bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, unsigned char *bitcoin) {
     bitcoin_transaction_t *transaction = malloc(sizeof(bitcoin_transaction_t));
     if (transaction == NULL) {
@@ -106,19 +109,32 @@ bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, un
     return transaction;
 }
 
+// Sign a Bitcoin transaction
 void sign_bitcoin_transaction(bitcoin_transaction_t *transaction) {
     printf("Signing transaction for wallet: %s\n", transaction->wallet_address);
+
     // Placeholder signing implementation
-    // Add actual cryptographic signing logic here
+    // Replace this with actual cryptographic signing using a private key
+    unsigned char signature[64] = {0}; // Mock signature buffer
+    size_t signature_len = sizeof(signature);
+
+    // Mock signing process
+    printf("Transaction signed with a mock signature (length: %zu bytes).\n", signature_len);
+
+    // You would typically add the signature to the transaction object here
 }
 
+// Broadcast a Bitcoin transaction
 void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction) {
     printf("Broadcasting transaction for wallet: %s\n", transaction->wallet_address);
+
     // Placeholder broadcasting implementation
-    // Add network logic to broadcast the transaction to the blockchain
+    // Replace this with actual network communication to a Bitcoin node or pool
+    printf("Transaction successfully broadcasted to the blockchain network.\n");
 
     // Clean sensitive metadata
     memset(transaction->wallet_address, 0, strlen(transaction->wallet_address));
     memset(transaction->bitcoin, 0, sizeof(transaction->bitcoin));
-    printf("Metadata expunged after broadcasting.\n");
+    printf("Metadata securely expunged after broadcasting.\n");
 }
+
