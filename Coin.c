@@ -80,9 +80,6 @@ void PMLL_Cache_Data(const char *input, unsigned char *output) {
     memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
 }
 
-/// @brief 
-/// @param wallet_address 
-/// @param bitcoin 
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) {
     printf("Sending Bitcoin to the team wallet...\n");
 
@@ -97,7 +94,6 @@ void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) 
     printf("Transaction complete and metadata cleaned.\n");
 }
 
-// Create a Bitcoin transaction
 bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, unsigned char *bitcoin) {
     bitcoin_transaction_t *transaction = malloc(sizeof(bitcoin_transaction_t));
     if (transaction == NULL) {
@@ -107,44 +103,37 @@ bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, un
 
     // Safely copy wallet address and Bitcoin data
     NewFunction(transaction, wallet_address);
-    ->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0';
     memcpy(transaction->bitcoin, bitcoin, sizeof(transaction->bitcoin));
 
     return transaction;
 }
 
-void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address)
-{
+void NewFunction(bitcoin_transaction_t *transaction, const char *wallet_address) {
     strncpy(transaction->wallet_address, wallet_address, sizeof(transaction->wallet_address) - 1);
-    transaction
+    transaction->wallet_address[sizeof(transaction->wallet_address) - 1] = '\0'; // Ensure null termination
 }
 
-// Sign a Bitcoin transaction
 void sign_bitcoin_transaction(bitcoin_transaction_t *transaction) {
     printf("Signing transaction for wallet: %s\n", transaction->wallet_address);
 
     // Placeholder signing implementation
-    // Replace this with actual cryptographic signing using a private key
     unsigned char signature[64] = {0}; // Mock signature buffer
     size_t signature_len = sizeof(signature);
 
     // Mock signing process
     printf("Transaction signed with a mock signature (length: %zu bytes).\n", signature_len);
 
-    // You would typically add the signature to the transaction object here
+    // Add signature logic if required
 }
 
-// Broadcast a Bitcoin transaction
 void broadcast_bitcoin_transaction(bitcoin_transaction_t *transaction) {
     printf("Broadcasting transaction for wallet: %s\n", transaction->wallet_address);
 
     // Placeholder broadcasting implementation
-    // Replace this with actual network communication to a Bitcoin node or pool
     printf("Transaction successfully broadcasted to the blockchain network.\n");
 
     // Clean sensitive metadata
-    memset(transaction->wallet_address, 0, strlen(transaction->wallet_address));
+    memset(transaction->wallet_address, 0, sizeof(transaction->wallet_address));
     memset(transaction->bitcoin, 0, sizeof(transaction->bitcoin));
     printf("Metadata securely expunged after broadcasting.\n");
 }
-
