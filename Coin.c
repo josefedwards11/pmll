@@ -80,6 +80,9 @@ void PMLL_Cache_Data(const char *input, unsigned char *output) {
     memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
 }
 
+/// @brief 
+/// @param wallet_address 
+/// @param bitcoin 
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) {
     printf("Sending Bitcoin to the team wallet...\n");
 
