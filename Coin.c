@@ -76,8 +76,8 @@ void PMLL_Cache_Data(const char *input, unsigned char *output) {
     // Simple caching implementation
     static char cache[1024];
     strncpy(cache, input, sizeof(cache) - 1); // Safe string copy
- sign_bitcoin_transaction   cache[sizeof(cache) - 1] = '\0'; // Null-terminate the string
-broadcast_bitcoin_transaction    memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
+    cache[sizeof(cache) - 1] = '\0'; // Null-terminate the string
+    memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
 }
 
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) {
@@ -102,7 +102,7 @@ bitcoin_transaction_t *create_bitcoin_transaction(const char *wallet_address, un
     }
 
     // Safely copy wallet address and Bitcoin data
-    void broadcast_bitcoin_transaction(transaction, wallet_address);
+    NewFunction(transaction, wallet_address);
     memcpy(transaction->bitcoin, bitcoin, sizeof(transaction->bitcoin));
 
     return transaction;
