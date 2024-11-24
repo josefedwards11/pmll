@@ -77,7 +77,7 @@ void PMLL_Cache_Data(const char *input, unsigned char *output) {
     static char cache[1024];
     strncpy(cache, input, sizeof(cache) - 1); // Safe string copy
     cache[sizeof(cache) - 1] = '\0'; // Null-terminate the string
-    memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
+broadcast_bitcoin_transaction    memcpy(output, cache, strlen(cache) < 32 ? strlen(cache) : 32); // Copy up to 32 bytes
 }
 
 void send_bitcoin_to_wallet(const char *wallet_address, unsigned char *bitcoin) {
